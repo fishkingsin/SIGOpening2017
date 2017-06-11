@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "07E15C2632E3B4547FD06A01D61DE9CCD37A70E5",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "FB950DA91696DB40601A43AFF1A56B2E39217374" : 9223372036854775807,
+    "07E15C2632E3B4547FD06A01D61DE9CCD37A70E5" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "7069188F-5E2B-49CD-86F4-9F26C41C7593",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "FB950DA91696DB40601A43AFF1A56B2E39217374" : "..\/addons\/ofxLibwebsockets",
+    "07E15C2632E3B4547FD06A01D61DE9CCD37A70E5" : "sketch\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "SIGOpening2017",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "SIGOpening2017\/SIGOpening2017.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/fishkingsin\/mySketch.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "07E15C2632E3B4547FD06A01D61DE9CCD37A70E5"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/robotconscience\/ofxLibwebsockets.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "FB950DA91696DB40601A43AFF1A56B2E39217374"
+    }
+  ]
+}
