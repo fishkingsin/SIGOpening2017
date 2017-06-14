@@ -3,6 +3,7 @@
 #include "ofMain.h"
 
 #include "ofxLibwebsockets.h"
+#include "ofxAnimatableFloat.h"
 class Drawing {
 public:
     int             _id;
@@ -88,7 +89,7 @@ public:
     void onBroadcast( ofxLibwebsockets::Event& args );
     
     ofImage     srcImg;
-    ofImage     dstImg;
+    ofVideoPlayer     dstVideo;
     ofImage     brushImg;
     
     ofFbo       maskFbo;
@@ -96,4 +97,6 @@ public:
     
     ofShader    shader;
     
+    ofxAnimatableFloat animatableFloat;
+    ofVideoPlayer openingVid,endLoop;
 };

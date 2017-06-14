@@ -20,11 +20,17 @@ void ofApp::setup(){
     canvasID = 0;
     
     // OF drawing
-    srcImg.load("A.jpg");
-    dstImg.load("B.jpg");
+    srcImg.load("final_03.jpg");
+    dstVideo.load("looping.mov");
+    openingVid.load("trailer-withmusic.mp4");
+    openingVid.setPaused(true);
+    endLoop.load("loopingend.mov");
+    endLoop.setPaused(true);
+    dstVideo.play();
+    dstVideo.setLoopState(OF_LOOP_NORMAL);
     brushImg.load("brush.png");
     srcImg.resize(ofGetWidth(), ofGetHeight());
-    dstImg.resize(ofGetWidth(), ofGetHeight());
+//    dstImg.resize(ofGetWidth(), ofGetHeight());
     int width = srcImg.getWidth();
     int height = srcImg.getHeight();
     
@@ -116,10 +122,16 @@ void ofApp::setup(){
     d->color.set(ofRandom(255),ofRandom(255),ofRandom(255));
     
     drawings.insert( make_pair( d->_id, d ));
+    animatableFloat.setup();
+    animatableFloat.reset(1);
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    openingVid.update();
+    endLoop.update();
+    animatableFloat.update(ofGetLastFrameTime());
     if ( toDelete.size() > 0 ){
         for ( auto & i : toDelete ){
             drawings.erase(i->_id);
@@ -133,8 +145,6 @@ void ofApp::update(){
     vector<ofPoint>::iterator it;
     for(it=points.begin(); it != points.end() ; ++it){
         brushImg.draw((*it).x-r,(*it).y-r,r*2,r*2);
-        points.erase(it);
-        --it;
     }
     maskFbo.end();
     
@@ -147,7 +157,7 @@ void ofApp::update(){
     shader.begin();
     shader.setUniformTexture("maskTex", maskFbo.getTexture(), 1 );
     
-    srcImg.draw(0,0);
+    dstVideo.draw(0,0);
     
     shader.end();
     fbo.end();
@@ -164,18 +174,37 @@ void ofApp::update(){
         ofEndShape(false);
     }
     ofFill();
+    for(it=points.begin(); it != points.end() ; ++it){
+        brushImg.draw((*it).x-r,(*it).y-r,r*2,r*2);
+        points.erase(it);
+        --it;
+    }
+
+    dstVideo.update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
     //TODO fade out mask
     //play video
-    ofSetColor(255,255);
+    ofSetColor(255);
+    if(openingVid.getCurrentFrame() != openingVid.getTotalNumFrames() && openingVid.isPlaying()){
+        openingVid.draw(0,0);
+    }else if (openingVid.getCurrentFrame() != openingVid.getTotalNumFrames() && endLoop.isPaused()){
+        endLoop.play();
+        endLoop.setLoopState(OF_LOOP_NORMAL);
+    }else{
+        endLoop.draw(0,0);
+    }
     
-    dstImg.draw(0,0);
+    ofPushStyle();
+    ofSetColor(255,255*animatableFloat.val());
+    
+    
+    srcImg.draw(0,0);
     
     fbo.draw(0,0);
-
+    ofPopStyle();
     if(ofGetLogLevel() == OF_LOG_VERBOSE){
         if ( bConnected ){
             ofDrawBitmapString("WebSocket server setup at "+ofToString( server.getPort() ) + ( server.usingSSL() ? " with SSL" : " without SSL"), 20, 20);
@@ -244,7 +273,7 @@ void ofApp::onIdle( ofxLibwebsockets::Event& args ){
 
 //--------------------------------------------------------------
 void ofApp::onMessage( ofxLibwebsockets::Event& args ){
-    cout<<"got message "<<args.message<<endl;
+//    cout<<"got message "<<args.message<<endl;
     
     try{
         // trace out string messages or JSON messages!
@@ -285,7 +314,7 @@ void ofApp::onBroadcast( ofxLibwebsockets::Event& args ){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    if ( key == ' ' ){
+    if ( key == '`' ){
         string url = "http";
         if ( server.usingSSL() ){
             url += "s";
@@ -297,7 +326,13 @@ void ofApp::keyPressed(int key){
         maskFbo.begin();
         ofClear(0,0,0,255);
         maskFbo.end();
+        animatableFloat.reset(1);
 
+    }
+    if(key == ' '){
+        openingVid.play();
+        openingVid.setLoopState(OF_LOOP_NONE);
+        animatableFloat.animateTo(0);
     }
 }
 
