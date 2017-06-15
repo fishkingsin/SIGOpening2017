@@ -1,11 +1,18 @@
 var current;
 var previous;
+
+var sounds=[]
 function setup() {
   var vanvas = createCanvas(windowWidth,windowHeight);
   // canvas.id("sketchCanvas");
   colorMode(HSB, 100);
   current = createVector(0,0);
   previous = createVector(0,0);
+  var random = parseInt(getRandomArbitrary(0,4));
+  sounds.push(loadSound("assets/sfx/"+random+"/a.mp3"));
+  sounds.push(loadSound("assets/sfx/"+random+"/b.mp3"));
+  sounds.push(loadSound("assets/sfx/"+random+"/c.mp3"));
+  sounds.push(loadSound("assets/sfx/"+random+"/d.mp3"));
 }
 
 function draw() {
@@ -26,7 +33,7 @@ function draw() {
   var num = 5;
   var offset=10 * (v.x+1);
   // New particle's force is based on mouse movement
-    
+
   for (var i = 0; i< num; i ++) {
     var tx = x+sin(t*i+i)*offset;
     var ty = y+cos(t*i+i)*offset;
@@ -38,10 +45,22 @@ function draw() {
     ellipse(tx, ty, radius, radius);
   }
   blendMode(NORMAL);
-  // if(current.x != previous.x && current.y != previous.y){
+  if(current.x != previous.x && current.y != previous.y){
+    if(sounds.length>0){
+      var random = parseInt(getRandomArbitrary(0,4));
+      if ( !sounds[random].isPlaying() && sounds[random].isLoaded()){
+        sounds[random].play();
+      }
+    }
+    
+  }
   //   onMouseDraw( current.x*2, current.y*2 );
-  // }
-  
+
+
   previous.x = current.x;
   previous.y = current.y;
+}
+
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
 }

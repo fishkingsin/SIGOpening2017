@@ -64,7 +64,7 @@ function onMouseDown( e ){
     var mouseX = e.pageX - this.offsetLeft;
     var mouseY = e.pageY - this.offsetTop;
     onMouseDraw( mouseX, mouseY );
-  }else{
+  }else if (e.originalEvent){
   	 e.preventDefault(); 
     var mouseX = e.originalEvent.touches[0].pageX - this.offsetLeft;
     var mouseY = e.originalEvent.touches[0].pageY - this.offsetTop;
@@ -79,7 +79,7 @@ function onMouseMoved( e ){
   		var mouseX = e.pageX - this.offsetLeft;
   		var mouseY = e.pageY - this.offsetTop;
   		onMouseDraw( mouseX, mouseY );
-  	}else{
+  	}else if (e.originalEvent){
   		e.stopPropagation();
   		var mouseX = e.originalEvent.touches[0].pageX - this.offsetLeft;
   		var mouseY = e.originalEvent.touches[0].pageY - this.offsetTop;
@@ -94,6 +94,8 @@ function onMouseUp( e ){
 
 // catch mouse events on canvas
 function onMouseDraw( x, y ){
+  x *=2;
+  y *=2;
   var point = {point:{x:x/canvas.width,y:y/canvas.height},id:id,color:color};
   if ( socket.readyState == 1 ){
     sketches[id].points.push( point.point );
